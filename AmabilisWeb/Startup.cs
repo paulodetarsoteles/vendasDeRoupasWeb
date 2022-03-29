@@ -1,4 +1,6 @@
 ﻿using AmabilisWeb.Data;
+using AmabilisWeb.Repositories;
+using AmabilisWeb.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AmabilisWeb;
@@ -16,6 +18,8 @@ public class Startup
     {
         services.AddDbContext<AmabilisWebContext>
             (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+        services.AddTransient<IRoupaRepository, RoupaRepository>();
+        services.AddTransient<ICategoriaRepository, CategoriaRepository>();
         services.AddControllersWithViews();
     }
 

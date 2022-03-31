@@ -10,19 +10,18 @@ public class Startup
     {
         Configuration = configuration;
     }
-
     public IConfiguration Configuration { get; }
-
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddDbContext<AmabilisWebContext>
-            (options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
+        services.AddDbContext<AmabilisWebContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"))); 
         services.AddTransient<IRoupaRepository, RoupaRepository>();
         services.AddTransient<ICategoriaRepository, CategoriaRepository>();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         services.AddControllersWithViews();
+        services.AddMemoryCache();
+        services.AddSession();
     }
-
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
@@ -38,11 +37,9 @@ public class Startup
         }
         app.UseHttpsRedirection();
         app.UseStaticFiles();
-
         app.UseRouting();
-
+        app.UseSession();
         app.UseAuthorization();
-
         app.UseEndpoints(endpoints =>
         {
             endpoints.MapControllerRoute(

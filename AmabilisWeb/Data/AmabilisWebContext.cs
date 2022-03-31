@@ -8,5 +8,6 @@ namespace AmabilisWeb.Data
         public AmabilisWebContext(DbContextOptions<AmabilisWebContext> options) : base(options) { }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<Roupa> Roupas { get; set; }
+        public DbSet<CarrinhoCompraItem> CarrinhoCompraItems { get; set; }
     }
 }
